@@ -7,10 +7,11 @@ import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Set the search state in sessionStorage before navigating
+  // Set state + force refresh
   const setSearchState = (state_value) => {
     sessionStorage.setItem("storedState", state_value);
-    setIsOpen(false); // close mobile menu if open
+    setIsOpen(false);
+    window.location.href = "/search"; // ensures refresh + navigation
   };
 
   return (
@@ -26,14 +27,13 @@ export default function Navigation() {
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6 text-stone-200 font-medium">
         {["movies", "tvshows", "anime"].map((cat) => (
-          <Link
+          <button
             key={cat}
-            href="/search"
             onClick={() => setSearchState(cat)}
             className="hover:text-amber-400 transition capitalize"
           >
             {cat.replace("tvshows", "TV Shows")}
-          </Link>
+          </button>
         ))}
 
         {/* User Section (Desktop) */}
@@ -61,14 +61,13 @@ export default function Navigation() {
       {isOpen && (
         <div className="z-10 absolute top-full right-0 mt-2 w-48 bg-stone-900 border border-amber-500 rounded-lg shadow-lg flex flex-col">
           {["movies", "tvshows", "anime"].map((cat) => (
-            <Link
+            <button
               key={cat}
-              href="/search"
               onClick={() => setSearchState(cat)}
-              className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition capitalize"
+              className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition text-left capitalize"
             >
               {cat.replace("tvshows", "TV Shows")}
-            </Link>
+            </button>
           ))}
 
           {/* User Section (Mobile) */}
