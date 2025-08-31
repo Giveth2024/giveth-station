@@ -68,7 +68,8 @@ export default function Search() {
     } else {
       setLoading(false);
     }
-  }, [apiKey]);
+  }, [apiKey, searchOMDb, fetchDetailsById]);
+
 
 // --- Manual Search ---
 async function handleSearch(newSearch = true) {

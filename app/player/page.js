@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
+import Image from "next/image";
 
 export default function Player() {
   const router = useRouter();
@@ -90,7 +91,7 @@ export default function Player() {
           {/* Title & Poster */}
           <div className="flex flex-col md:flex-row gap-6 p-6 bg-stone-900 rounded-xl shadow-lg">
             <div className="flex-shrink-0 w-full md:w-64 lg:w-72">
-              <img
+              <Image
                 src={Data.Poster !== "N/A" ? Data.Poster : "/placeholder.jpg"}
                 alt={Data.Title}
                 className="w-full h-[360px] rounded-xl shadow-lg object-cover"
@@ -133,7 +134,7 @@ export default function Player() {
           </div>
 
           {/* Source Toggle Buttons */}
-          <h4 className="my-4">Click on the other if one doesn't work</h4>
+          <h4 className="my-4">Click on the other if one doesn&apos;t work</h4>
           <div className="flex gap-4">
             <button
               className={`px-4 py-2 rounded shadow-md ${source === "xyz" ? "bg-amber-400 text-stone-900" : "bg-stone-800 text-stone-200"}`}
