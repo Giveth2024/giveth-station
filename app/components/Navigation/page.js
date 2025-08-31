@@ -7,10 +7,11 @@ import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
-  function searchState(state_value) {
+  // Set the search state in sessionStorage before navigating
+  const setSearchState = (state_value) => {
     sessionStorage.setItem("storedState", state_value);
-    window.location.reload();
-  }
+    setIsOpen(false); // close mobile menu if open
+  };
 
   return (
     <nav className="p-4 bg-stone-900 flex flex-row justify-between items-center shadow-md relative">
@@ -24,27 +25,16 @@ export default function Navigation() {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6 text-stone-200 font-medium">
-        <Link
-          onClick={() => searchState("movies")}
-          className="hover:text-amber-400 transition"
-          href="/search"
-        >
-          Movies
-        </Link>
-        <Link
-          onClick={() => searchState("tvshows")}
-          className="hover:text-amber-400 transition"
-          href="/search"
-        >
-          TV Shows
-        </Link>
-        <Link
-          onClick={() => searchState("anime")}
-          className="hover:text-amber-400 transition"
-          href="/search"
-        >
-          Anime
-        </Link>
+        {["movies", "tvshows", "anime"].map((cat) => (
+          <Link
+            key={cat}
+            href="/search"
+            onClick={() => setSearchState(cat)}
+            className="hover:text-amber-400 transition capitalize"
+          >
+            {cat.replace("tvshows", "TV Shows")}
+          </Link>
+        ))}
 
         {/* User Section (Desktop) */}
         <SignedIn>
@@ -70,36 +60,16 @@ export default function Navigation() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="z-10 absolute top-full right-0 mt-2 w-48 bg-stone-900 border border-amber-500 rounded-lg shadow-lg flex flex-col">
-          <Link
-            className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition"
-            href="/search"
-            onClick={() => {
-              setIsOpen(false);
-              searchState("movies");
-            }}
-          >
-            Movies
-          </Link>
-          <Link
-            className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition"
-            href="/search"
-            onClick={() => {
-              setIsOpen(false);
-              searchState("tvshows");
-            }}
-          >
-            TV Shows
-          </Link>
-          <Link
-            className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition"
-            href="/search"
-            onClick={() => {
-              setIsOpen(false);
-              searchState("anime");
-            }}
-          >
-            Anime
-          </Link>
+          {["movies", "tvshows", "anime"].map((cat) => (
+            <Link
+              key={cat}
+              href="/search"
+              onClick={() => setSearchState(cat)}
+              className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition capitalize"
+            >
+              {cat.replace("tvshows", "TV Shows")}
+            </Link>
+          ))}
 
           {/* User Section (Mobile) */}
           <div className="px-4 py-2 border-t border-stone-700 flex items-center justify-between">
