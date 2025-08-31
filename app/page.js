@@ -54,7 +54,7 @@ export default function LandingPage() {
                 href="/home"
                 className="px-5 py-2 rounded-xl bg-amber-400 text-stone-900 font-medium shadow hover:bg-amber-500 transition"
               >
-                Let's Go Home
+                Let&apos;s Go Home
               </Link>
             </div>
           </div>
