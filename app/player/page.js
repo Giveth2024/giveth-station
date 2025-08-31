@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
-import Footer from "../components/Footer";
 
 export default function Player() {
   const router = useRouter();
@@ -13,6 +12,15 @@ export default function Player() {
   // New states for image failover
   const [imgSrc, setImgSrc] = useState("");
   const [triedFallback, setTriedFallback] = useState(false);
+
+  
+  useEffect(() => {
+    const quartzKey = sessionStorage.getItem("data"); // replace "quartzKey" with your actual key name
+    if (!quartzKey) {
+      router.replace("/home"); // redirect to homepage if key doesn't exist
+    }
+  }, [router]);
+
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("data");
