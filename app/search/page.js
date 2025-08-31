@@ -121,7 +121,7 @@ export default function Search() {
           <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-6">
             Search {state || "movies"}
           </h2>
-          <div className="flex w-full max-w-xl gap-4">
+          <div className="flex flex-col sm:flex-row w-full max-w-xl gap-4">
             <input
               type="text"
               placeholder={`Enter your ${state || "movies"} name here...`}
