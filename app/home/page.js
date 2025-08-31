@@ -1,6 +1,7 @@
 'use client'
 import Navigation from "../components/Navigation/page";
 import Card from "../components/Card";
+import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 
@@ -170,6 +171,8 @@ export default function Home() {
       <SignedOut>
         <RedirectToSignIn redirectUrl="/" />
       </SignedOut>
+
+      <Footer />
     </>
   );
 }

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Navigation from "../components/Navigation/page";
 import Card from "../components/Card";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
+import Footer from "../components/Footer";
 
 export default function Search() {
   const apiKey = process.env.NEXT_PUBLIC_OMDB_API_KEY;
@@ -170,6 +171,7 @@ export default function Search() {
       <SignedOut>
         <RedirectToSignIn redirectUrl="/" />
       </SignedOut>
+      <Footer />
     </>
   );
 }
