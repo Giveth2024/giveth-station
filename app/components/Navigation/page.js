@@ -18,6 +18,7 @@ export default function Navigation() {
     <nav className="p-4 bg-stone-900 flex flex-row justify-between items-center shadow-md relative">
       {/* Logo */}
       <Link
+        title="Giveth Station"
         href="/home"
         className="text-2xl font-bold text-amber-400 flex items-center gap-1 hover:text-amber-500 transition"
       >
@@ -29,6 +30,7 @@ export default function Navigation() {
         {["movies", "tvshows", "anime"].map((cat) => (
           <button
             key={cat}
+            title={`${cat}`}
             onClick={() => setSearchState(cat)}
             className="hover:text-amber-400 transition capitalize"
           >

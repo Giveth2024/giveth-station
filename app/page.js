@@ -18,7 +18,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="max-w-2xl">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
-          Welcome to <span className="text-amber-400">Givethation</span>
+          Welcome to <span className="text-amber-400">Giveth<i className="fa-solid fa-bolt"></i>tation</span>
         </h1>
         <p className="text-lg md:text-xl text-stone-300 mb-8">
           A place where movies, TV shows, and anime come together to entertain
@@ -50,10 +50,11 @@ export default function LandingPage() {
 
             <div className="flex gap-4">
               <Link
+                title="Giveth Station"
                 href="/home"
                 className="px-5 py-2 rounded-xl bg-amber-400 text-stone-900 font-medium shadow hover:bg-amber-500 transition"
               >
-                Go to Home
+                Let's Go Home
               </Link>
             </div>
           </div>
@@ -62,7 +63,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="absolute bottom-4 text-stone-400 text-sm">
-        © {new Date().getFullYear()} Givethation. All rights reserved.
+        © {new Date().getFullYear()} GivethSation. All rights reserved.
       </footer>
     </main>
   );

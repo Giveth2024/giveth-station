@@ -1,5 +1,4 @@
 import "./globals.css";
-import Footer from "./components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
 
 // app/history/page.tsx or .jsx
@@ -28,7 +27,6 @@ export default function RootLayout({ children }) {
         className="bg-stone-950 text-stone-100"
       >
         {children}
-        <Footer />
       </body>
     </html>
     </ClerkProvider>
