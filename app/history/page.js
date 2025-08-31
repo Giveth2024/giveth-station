@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function History() {
   const [favorites, setFavorites] = useState([]);
@@ -50,7 +49,7 @@ export default function History() {
               <div className="flex flex-col gap-4">
                 {favorites.length ? favorites.map(fav => (
                   <div key={fav.Id} className="flex items-center gap-4 bg-stone-900 rounded-lg p-2 shadow-md">
-                    <Image
+                    <img
                       src={fav.Data.Poster !== "N/A" ? fav.Data.Poster : "/placeholder.jpg"}
                       alt={fav.Data.Title}
                       className="rounded w-24 h-36 object-cover cursor-pointer"
@@ -85,7 +84,7 @@ export default function History() {
               <div className="flex flex-col gap-4">
                 {history.length ? history.map(item => (
                   <div key={item.Id} className="flex items-center gap-4 bg-stone-900 rounded-lg p-2 shadow-md">
-                    <Image
+                    <img
                       src={item.Data.Poster !== "N/A" ? item.Data.Poster : "/placeholder.jpg"}
                       alt={item.Data.Title}
                       className="rounded w-24 h-36 object-cover cursor-pointer"

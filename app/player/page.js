@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
-import Image from "next/image";
+
 
 export default function Player() {
   const router = useRouter();
@@ -91,7 +91,7 @@ export default function Player() {
           {/* Title & Poster */}
           <div className="flex flex-col md:flex-row gap-6 p-6 bg-stone-900 rounded-xl shadow-lg">
             <div className="flex-shrink-0 w-full md:w-64 lg:w-72">
-              <Image
+              <img
                 src={Data.Poster !== "N/A" ? Data.Poster : "/placeholder.jpg"}
                 alt={Data.Title}
                 className="w-full h-[360px] rounded-xl shadow-lg object-cover"

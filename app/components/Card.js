@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Card({id, title, poster, rating, genre, year, state, data}) {
@@ -19,7 +18,7 @@ export default function Card({id, title, poster, rating, genre, year, state, dat
   return (
     <div id={id} title={title} onClick={() => setID(id)} className="bg-stone-800 rounded-xl overflow-hidden shadow-lg hover:scale-105 transform transition duration-300 w-full sm:w-48 md:w-64">
       <div className="relative">
-        <Image
+        <img
           src={poster !== "N/A" ? poster : "/placeholder.jpg"} // fallback if no poster
           alt={title}
           className="w-full h-72 object-cover"
