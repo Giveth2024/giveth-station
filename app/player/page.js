@@ -160,7 +160,7 @@ export default function Player() {
           </div>
 
           {/* Source Toggle */}
-          <h4 className="my-4 text-stone-300">Click another source if one doesn't work</h4>
+          <h4 className="my-4 text-stone-300">Click another source if one doesn&apos;t work</h4>
           <div className="flex gap-4 mb-8">
             <button
               className={`px-4 py-2 rounded shadow-md transition ${source === "xyz" ? "bg-amber-400 text-stone-900" : "bg-stone-800 text-stone-200 hover:bg-stone-700"}`}
