@@ -14,6 +14,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const CACHE_KEY = "omdb_cache";
+    const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
+
     async function searchOMDb(keyword, type = "movie", count = 10) {
       let results = [];
       let page = 1;
@@ -22,7 +25,7 @@ export default function Home() {
         const data = await res.json();
         if (!data.Search) break;
         results.push(...data.Search);
-        if (data.Search.length < 10) break; // no more pages
+        if (data.Search.length < 10) break;
         page++;
       }
       return results.slice(0, count);
@@ -33,37 +36,62 @@ export default function Home() {
       return await res.json();
     }
 
-    (async () => {
-      try{
+    async function fetchAndCache() {
+      try {
         // Movies
         const mov = await searchOMDb("movie", "movie");
         const movDetails = await Promise.all(mov.map(m => fetchDetailsById(m.imdbID)));
-        setMovies(movDetails);
 
         // TV Shows
         const tv = await searchOMDb("series", "series");
         const tvDetails = await Promise.all(tv.map(t => fetchDetailsById(t.imdbID)));
-        setSeries(tvDetails);
 
         // Anime
         const anim = await searchOMDb("anime", "series");
         const animDetails = await Promise.all(anim.map(a => fetchDetailsById(a.imdbID)));
+
+        const cacheData = {
+          timestamp: Date.now(),
+          movies: movDetails,
+          series: tvDetails,
+          anime: animDetails,
+        };
+
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+
+        setMovies(movDetails);
+        setSeries(tvDetails);
         setAnime(animDetails);
-      }
-      catch(err){
-        console.error(`Error Fetching Data: ${err}`);
-      }
-      finally{
+      } catch (err) {
+        console.error(`Error fetching data: ${err}`);
+      } finally {
         setLoading(false);
       }
-    })();
+    }
+
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const { timestamp, movies, series, anime } = JSON.parse(cached);
+      setMovies(movies);
+      setSeries(series);
+      setAnime(anime);
+
+      // Check if one week passed
+      if (Date.now() - timestamp > ONE_WEEK) {
+        fetchAndCache();
+      } else {
+        setLoading(false);
+      }
+    } else {
+      fetchAndCache();
+    }
+
   }, [apiKey]);
 
-    // 👇 Show loading before content
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-stone-950 text-amber-400">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-amber-400 border-solid mb-4"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-amber-400 mb-4"></div>
         <p className="text-lg font-semibold">Loading content...</p>
       </div>
     );
@@ -139,11 +167,9 @@ export default function Home() {
         </section>
       </SignedIn>
 
-        
       <SignedOut>
         <RedirectToSignIn redirectUrl="/" />
       </SignedOut>
-
     </>
   );
 }

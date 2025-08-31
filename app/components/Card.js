@@ -1,30 +1,45 @@
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Card({id, title, poster, rating, genre, year, state, data}) {
   const router = useRouter();
-  function setID(value)
-  {
+  const [imgSrc, setImgSrc] = useState(
+    poster && poster !== "N/A"
+      ? `https://img.omdbapi.com/?i=${id}&h=600&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`
+      : "/placeholder.jpg"
+  );
+  const [triedFallback, setTriedFallback] = useState(false);
 
+  function setID(value) {
     alert(value);
     const dataStorage = {
-      Id : value,
+      Id: value,
       State: state,
-      Data : data
-    }
-
+      Data: data
+    };
     sessionStorage.setItem("data", JSON.stringify(dataStorage));
     router.push("/player");
-
   }
+
+  const handleError = () => {
+    if (!triedFallback && poster && poster !== "N/A") {
+      setImgSrc(poster); // try original poster
+      setTriedFallback(true);
+    } else {
+      setImgSrc("/placeholder.jpg"); // fallback to placeholder
+    }
+  };
+
   return (
     <div id={id} title={title} onClick={() => setID(id)} className="bg-stone-800 rounded-xl overflow-hidden shadow-lg hover:scale-105 transform transition duration-300 w-full sm:w-48 md:w-64">
       <div className="relative">
         <img
-          src={poster !== "N/A" ? poster : "/placeholder.jpg"} // fallback if no poster
+          src={imgSrc}
           alt={title}
           className="w-full h-72 object-cover"
           width={200}
           height={300}
+          onError={handleError}
         />
         <div className="absolute bottom-2 right-2 bg-amber-400 text-stone-950 text-xs font-bold px-2 py-1 rounded-md shadow">
           ★ {rating}
