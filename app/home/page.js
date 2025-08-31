@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import Navigation from "../components/Navigation/page";
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
@@ -17,16 +17,14 @@ export default function Home() {
     async function searchOMDb(keyword, type = "movie", count = 10) {
       let results = [];
       let page = 1;
-
       while (results.length < count) {
         const res = await fetch(`${BASE_URL}?apikey=${apiKey}&s=${encodeURIComponent(keyword)}&type=${type}&page=${page}`);
         const data = await res.json();
         if (!data.Search) break;
         results.push(...data.Search);
-        if (data.Search.length < 10) break; 
+        if (data.Search.length < 10) break; // no more pages
         page++;
       }
-
       return results.slice(0, count);
     }
 
@@ -36,28 +34,32 @@ export default function Home() {
     }
 
     (async () => {
-      try {
-        // Default searches
-        const defaultMovies = await searchOMDb("Avengers", "movie");
-        const defaultSeries = await searchOMDb("Friends", "series");
-        const defaultAnime = await searchOMDb("Naruto", "series");
+      try{
+        // Movies
+        const mov = await searchOMDb("movie", "movie");
+        const movDetails = await Promise.all(mov.map(m => fetchDetailsById(m.imdbID)));
+        setMovies(movDetails);
 
-        // Fetch full details
-        const movieDetails = await Promise.all(defaultMovies.map(m => fetchDetailsById(m.imdbID)));
-        const seriesDetails = await Promise.all(defaultSeries.map(s => fetchDetailsById(s.imdbID)));
-        const animeDetails = await Promise.all(defaultAnime.map(a => fetchDetailsById(a.imdbID)));
+        // TV Shows
+        const tv = await searchOMDb("series", "series");
+        const tvDetails = await Promise.all(tv.map(t => fetchDetailsById(t.imdbID)));
+        setSeries(tvDetails);
 
-        setMovies(movieDetails.filter(m => m.imdbID));
-        setSeries(seriesDetails.filter(s => s.imdbID));
-        setAnime(animeDetails.filter(a => a.imdbID));
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
+        // Anime
+        const anim = await searchOMDb("anime", "series");
+        const animDetails = await Promise.all(anim.map(a => fetchDetailsById(a.imdbID)));
+        setAnime(animDetails);
+      }
+      catch(err){
+        console.error(`Error Fetching Data: ${err}`);
+      }
+      finally{
         setLoading(false);
       }
     })();
   }, [apiKey]);
 
+    // 👇 Show loading before content
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-stone-950 text-amber-400">
@@ -70,62 +72,66 @@ export default function Home() {
   return (
     <>
       <SignedIn>
+        {/* Navbar */}
         <Navigation />
 
-        {/* Movies */}
+        {/* Movies Section */}
         <section className="border-l-4 border-amber-500 p-6 my-6">
           <h2 className="text-xl text-center md:text-2xl font-bold mb-8 text-amber-400">Movies</h2>
           <div className="flex flex-wrap justify-center gap-6">
-            {movies.map(m => (
+            {movies.filter((m) => m.imdbID)
+            .map((m) => (
               <Card
                 key={`movie-${m.imdbID}`}
                 id={m.imdbID}
                 title={m.Title}
-                poster={m.Poster && m.Poster !== "N/A" ? m.Poster : "/placeholder.jpg"}
+                poster={m.Poster}
                 year={m.Year}
                 rating={m.imdbRating}
                 genre={m.Genre}
-                state="movies"
+                state={"movies"}
                 data={m}
               />
             ))}
           </div>
         </section>
 
-        {/* TV Shows */}
+        {/* TV Section */}
         <section className="border-l-4 border-amber-500 p-6 my-6">
           <h2 className="text-xl text-center md:text-2xl font-bold mb-8 text-amber-400">TV Shows</h2>
-          <div className="flex flex-wrap justify-center gap-6">
-            {series.map(s => (
+          <div className="flex flex-wrap justify-center  gap-6">
+            {series.filter((s) => s.imdbID)
+            .map((s) => (
               <Card
                 key={`series-${s.imdbID}`}
                 id={s.imdbID}
                 title={s.Title}
-                poster={s.Poster && s.Poster !== "N/A" ? s.Poster : "/placeholder.jpg"}
+                poster={s.Poster}
                 year={s.Year}
                 rating={s.imdbRating}
                 genre={s.Genre}
-                state="tvshows"
+                state={"tvshows"}
                 data={s}
               />
             ))}
           </div>
         </section>
 
-        {/* Anime */}
+        {/* Anime Section */}
         <section className="border-l-4 border-amber-500 p-6 my-6">
           <h2 className="text-xl text-center md:text-2xl font-bold mb-8 text-amber-400">Anime</h2>
-          <div className="flex flex-wrap justify-center gap-6">
-            {anime.map(a => (
+          <div className="flex flex-wrap justify-center  gap-6">
+            {anime.filter((a) => a.imdbID)
+            .map((a) => (
               <Card
                 key={`anime-${a.imdbID}`}
                 id={a.imdbID}
                 title={a.Title}
-                poster={a.Poster && a.Poster !== "N/A" ? a.Poster : "/placeholder.jpg"}
+                poster={a.Poster}
                 year={a.Year}
                 rating={a.imdbRating}
                 genre={a.Genre}
-                state="anime"
+                state={"anime"}
                 data={a}
               />
             ))}
@@ -133,9 +139,11 @@ export default function Home() {
         </section>
       </SignedIn>
 
+        
       <SignedOut>
         <RedirectToSignIn redirectUrl="/" />
       </SignedOut>
+
     </>
   );
 }

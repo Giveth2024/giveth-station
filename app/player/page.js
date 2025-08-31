@@ -41,6 +41,8 @@ export default function Player() {
 
   const { Id, Data, State } = media;
 
+  alert(Id);
+
   const formatRatings = (ratings) =>
     ratings?.map(r => `${r.Source}: ${r.Value}`).join(" | ");
 

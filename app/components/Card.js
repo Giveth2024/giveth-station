@@ -5,6 +5,7 @@ export default function Card({id, title, poster, rating, genre, year, state, dat
   function setID(value)
   {
 
+    alert(value);
     const dataStorage = {
       Id : value,
       State: state,
