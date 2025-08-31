@@ -1,0 +1,119 @@
+Perfect ✅ That’s the right way to think about it—**page by page user flow**. Let’s map out what your site will have from the moment a user lands.
+
+---
+
+# 🌐 Website Flow & Pages
+
+## 1. **Landing / Home Page ( `/` )**
+
+* **Hero section** (big banner with featured Movie/TV/Anime).
+* **Navigation bar**
+
+  * Home | Movies | TV Shows | Anime | Search | Login/Signup.
+* **Sections** (scrolling rows like Netflix):
+
+  * Trending Movies 🎬
+  * Latest TV Episodes 📺
+  * Popular Anime 🌀
+  * Recommended (based on watch history if logged in).
+* **Footer** → About, Contact, Terms, Privacy, Social Links.
+
+---
+
+## 2. **Movies Page ( `/movies` )**
+
+* Grid/list of movies with **poster, title, year, genre, rating**.
+* **Filter & Sort** (Year, Genre, Rating, Language).
+* **Search bar** at top.
+* Click → goes to **Movie Details Page**.
+
+---
+
+## 3. **Movie Details Page ( `/movie/:id` )**
+
+* **Poster + Title + Info** (release year, genre, rating, duration).
+* **Description / Overview**.
+* **Watch Button** → opens embedded player.
+* **Cast & Crew (optional)**.
+* **Related movies** (recommended carousel).
+* If logged in → **Add to Watchlist / Favourite**.
+
+---
+
+## 4. **TV Shows Page ( `/tv` )**
+
+* Similar to Movies Page.
+* Shows listed by **Poster + Title + Seasons**.
+* Click → goes to **TV Show Details Page**.
+
+---
+
+## 5. **TV Show Details Page ( `/tv/:id` )**
+
+* **Poster + Title + Info (status, episodes, rating)**.
+* **Season dropdown** → list of episodes.
+* Each episode has **thumbnail, title, play button**.
+* Recommended shows carousel.
+* Add to Watchlist option.
+
+---
+
+## 6. **Anime Page ( `/anime` )**
+
+* Grid/list like movies.
+* Categories like *Popular, Ongoing, Dubbed, Subbed*.
+* Click → goes to **Anime Details Page**.
+
+---
+
+## 7. **Anime Details Page ( `/anime/:id` )**
+
+* **Poster + Synopsis + Genre + Studio**.
+* **Episode list** (sub/dub toggle).
+* Embedded player for each episode.
+* Add to Watchlist.
+
+---
+
+## 8. **Watch Page ( `/watch/:id` )**
+
+* Big **Video Player** (iframe / HLS).
+* **Subtitles toggle**.
+* **Quality switch (if available)**.
+* **Next episode / Previous episode buttons** (for TV/Anime).
+* Recommended videos on the side.
+
+---
+
+## 9. **Search Results Page ( `/search?q=keyword` )**
+
+* List of all matching Movies, TV, Anime.
+* Filters to narrow down.
+
+---
+
+## 10. **User Account Pages**
+
+* **Login / Signup Page**
+
+  * Email/Password or Google Sign-In.
+* **Profile Page ( `/profile` )**
+
+  * Username, avatar.
+  * Watchlist, History.
+  * Settings (dark/light mode, password reset).
+
+---
+
+## 11. **Admin Dashboard ( `/admin` )**
+
+* Only for you (the owner).
+* Add/Edit/Delete Movies, TV Shows, Anime.
+* Upload poster, metadata, and embed links.
+* Manage users.
+
+---
+
+👉 This flow gives you a **Netflix-style structure** but also keeps **Anime unique** (since many users look for subs/dubs).
+
+Would you like me to **sketch a wireframe layout** (boxes & structure) of the **Home Page** so you can visually see where each section will go?
