@@ -6,9 +6,6 @@ import { useEffect, useState } from "react";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 
 export default function Home() {
-  const apiKey = process.env.NEXT_PUBLIC_OMDB_API_KEY;
-  const BASE_URL = 'https://www.omdbapi.com/';
-
   const [movies, setMovies] = useState([]);
   const [series, setSeries] = useState([]);
   const [anime, setAnime] = useState([]);
@@ -21,21 +18,30 @@ export default function Home() {
     async function searchOMDb(keyword, type = "movie", count = 10) {
       let results = [];
       let page = 1;
+
       while (results.length < count) {
-        const res = await fetch(`${BASE_URL}?apikey=${apiKey}&s=${encodeURIComponent(keyword)}&type=${type}&page=${page}`);
+        // ✅ Call your backend instead of OMDb directly
+        const res = await fetch(`https://giveth-station-backend.onrender.com/api/search?s=${encodeURIComponent(keyword)}&type=${type}&page=${page}`);
+
         const data = await res.json();
-        if (!data.Search) break;
+
+        if (!data.Search) break; // stop if no results
         results.push(...data.Search);
-        if (data.Search.length < 10) break;
+
+        if (data.Search.length < 10) break; // stop if less than a page
         page++;
       }
-      return results.slice(0, count);
+
+      return results.slice(0, count); // only return requested count
     }
 
     async function fetchDetailsById(imdbID) {
-      const res = await fetch(`${BASE_URL}?apikey=${apiKey}&i=${imdbID}&plot=short&r=json`);
-      return await res.json();
+      // ✅ Call backend API endpoint instead of exposing the API key
+      const res = await fetch(`https://giveth-station-backend.onrender.com/api/details?id=${imdbID}`);
+      const data = await res.json();
+      return data;
     }
+
 
     async function fetchAndCache() {
       try {
@@ -87,7 +93,7 @@ export default function Home() {
       fetchAndCache();
     }
 
-  }, [apiKey]);
+  }, []);
 
   if (loading) {
     return (

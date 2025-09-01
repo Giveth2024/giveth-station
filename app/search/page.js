@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 import Navigation from "../components/Navigation/page";
 import Card from "../components/Card";
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
-import Footer from "../components/Footer";
+import { useRouter } from "next/navigation";
 
 export default function Search() {
-  const apiKey = process.env.NEXT_PUBLIC_OMDB_API_KEY;
-  const BASE_URL = "https://www.omdbapi.com/";
+  const router = useRouter();
+  const BACKEND_URL = "https://giveth-station-backend.onrender.com"; // <-- your backend full URL
 
   const [state, setState] = useState("");       // movies | tvshows | anime
   const [query, setQuery] = useState("");       // search input
   const [results, setResults] = useState([]);   // card results
-  const [loading, setLoading] = useState(true); // initial loader
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);          // pagination
 
   // --- Helpers ---
@@ -21,13 +21,16 @@ export default function Search() {
     let currentPage = pageNum;
 
     while (results.length < count) {
+      // Call backend proxy instead of OMDb
       const res = await fetch(
-        `${BASE_URL}?apikey=${apiKey}&s=${encodeURIComponent(keyword)}&type=${type}&page=${currentPage}`
+        `${BACKEND_URL}/api/search?s=${encodeURIComponent(keyword)}&type=${type}&page=${currentPage}`
       );
       const data = await res.json();
+
       if (!data.Search) break;
       results.push(...data.Search);
-      if (data.Search.length < 10) break; // no more pages
+
+      if (data.Search.length < 10) break;
       currentPage++;
     }
 
@@ -35,7 +38,8 @@ export default function Search() {
   }
 
   async function fetchDetailsById(imdbID) {
-    const res = await fetch(`${BASE_URL}?apikey=${apiKey}&i=${imdbID}&plot=short&r=json`);
+    // Call backend proxy for details
+    const res = await fetch(`${BACKEND_URL}/api/details?id=${imdbID}`);
     return await res.json();
   }
 
@@ -49,26 +53,13 @@ export default function Search() {
   // --- Load category from session ---
   useEffect(() => {
     const stored = sessionStorage.getItem("storedState");
+
     if (stored) {
       setState(stored);
-      (async () => {
-        try {
-          const type = resolveType(stored);
-          const { results: raw, nextPage } = await searchOMDb(stored, type, 20, 1);
-          const details = await Promise.all(raw.map(r => fetchDetailsById(r.imdbID)));
-          setResults(details.filter(d => d.imdbID)); // remove items without IDs
-          setPage(nextPage);
-        } catch (err) {
-          console.error("Error:", err);
-          setResults([]);
-        } finally {
-          setLoading(false);
-        }
-      })();
     } else {
-      setLoading(false);
+      router.push("/"); // go back to homepage if no state
     }
-  }, [apiKey]);
+  }, [router]);
 
   // --- Manual Search ---
   async function handleSearch(newSearch = true) {
@@ -83,8 +74,14 @@ export default function Search() {
         20,
         newSearch ? 1 : page
       );
+
       const details = await Promise.all(raw.map(r => fetchDetailsById(r.imdbID)));
-      setResults(prev => (newSearch ? details.filter(d => d.imdbID) : [...prev, ...details.filter(d => d.imdbID)]));
+
+      // Remove duplicates
+      const combined = newSearch ? details : [...results, ...details];
+      const unique = Array.from(new Map(combined.map(d => [d.imdbID, d])).values());
+
+      setResults(unique.filter(d => d.imdbID));
       setPage(nextPage);
     } catch (err) {
       console.error("Search Error:", err);
@@ -94,7 +91,6 @@ export default function Search() {
     }
   }
 
-  // --- KeyDown handler ---
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -120,7 +116,7 @@ export default function Search() {
         {/* Search Section */}
         <section className="w-[90%] p-8 my-6 mx-auto flex flex-col items-center justify-center bg-stone-900 rounded-2xl shadow-lg">
           <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-6">
-            Search {state || "movies"}
+            Search {state.replace("tvshows", "TV Shows") || "movies"}
           </h2>
           <div className="flex flex-col sm:flex-row w-full max-w-xl gap-4">
             <input
@@ -147,13 +143,13 @@ export default function Search() {
               ? "Loading..."
               : results.length > 0
               ? `Results for "${query || state}"`
-              : "No results found"}
+              : "No results found. Try typing the full name of the movie/serie/anime..."}
           </h3>
 
           <div className="flex flex-wrap justify-center gap-6">
             {results.map((m, i) => (
               <Card
-                key={`${state}-${m.imdbID || i}`} // ensures unique key
+                key={`${state}-${m.imdbID || i}`}
                 id={m.imdbID}
                 title={m.Title}
                 poster={m.Poster && m.Poster !== "N/A" ? m.Poster : "/placeholder.jpg"}
@@ -171,7 +167,6 @@ export default function Search() {
       <SignedOut>
         <RedirectToSignIn redirectUrl="/" />
       </SignedOut>
-      <Footer />
     </>
   );
 }
