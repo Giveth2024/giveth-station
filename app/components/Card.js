@@ -43,7 +43,7 @@ export default function Card({ id, title, poster, genre, year, onRemove }) {
         />
       </div>
 
-      <div className="p-3">h
+      <div className="p-3">
         <h3
           className="text-lg font-semibold hover:text-amber-400 cursor-pointer transition"
           onClick={() => setID(id)}
