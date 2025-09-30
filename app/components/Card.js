@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Card({id, title, poster, rating, genre, year, state, data}) {
+export default function Card({ id, title, poster, genre, year, onRemove }) {
   const router = useRouter();
   const [imgSrc, setImgSrc] = useState(
     poster && poster !== "N/A"
@@ -13,10 +13,9 @@ export default function Card({id, title, poster, rating, genre, year, state, dat
   function setID(value) {
     const dataStorage = {
       Id: value,
-      State: state,
-      Data: data
+      State: genre
     };
-    sessionStorage.setItem("data", JSON.stringify(dataStorage));
+    localStorage.setItem("data", JSON.stringify(dataStorage));
     router.push("/player");
   }
 
@@ -25,13 +24,18 @@ export default function Card({id, title, poster, rating, genre, year, state, dat
       setImgSrc(poster); // try original poster
       setTriedFallback(true);
     } else {
-      setImgSrc("/placeholder.jpg"); // fallback to placeholder
+      setImgSrc("/placeholder.jpg"); // fallback
     }
   };
 
   return (
-    <div id={id} title={title} onClick={() => setID(id)} className="bg-stone-800 rounded-xl overflow-hidden shadow-lg hover:scale-105 transform transition duration-300 w-full sm:w-48 md:w-64">
-      <div className="relative">
+    <div
+      id={id}
+      title={title}
+      className="bg-stone-800 rounded-xl overflow-hidden shadow-lg hover:scale-105 transform transition duration-300 w-full sm:w-48 md:w-64 relative"
+    >
+      {/* Clicking the image navigates to player */}
+      <div onClick={() => setID(id)} className="cursor-pointer">
         <img
           src={imgSrc}
           alt={title}
@@ -40,17 +44,31 @@ export default function Card({id, title, poster, rating, genre, year, state, dat
           height={300}
           onError={handleError}
         />
-        <div className="absolute bottom-2 right-2 bg-amber-400 text-stone-950 text-xs font-bold px-2 py-1 rounded-md shadow">
-          ★ {rating}
-        </div>
       </div>
+
       <div className="p-3">
-        <h3 className="text-lg font-semibold hover:text-amber-400 cursor-pointer transition">
+        <h3
+          className="text-lg font-semibold hover:text-amber-400 cursor-pointer transition"
+          onClick={() => setID(id)}
+        >
           {title}
         </h3>
         <p className="text-stone-400 text-sm mt-1">{genre}</p>
         <p className="text-stone-400 text-xs mt-1">{year}</p>
       </div>
+
+      {/* Only render the remove button if onRemove is provided */}
+      {onRemove && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation(); // prevent triggering the card click
+            onRemove();
+          }}
+          className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded hover:bg-red-700"
+        >
+          Remove
+        </button>
+      )}
     </div>
   );
 }

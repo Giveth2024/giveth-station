@@ -45,14 +45,14 @@ export default function Search() {
 
   function resolveType(val) {
     if (val === "movies") return "movie";
-    if (val === "tvshows") return "series";
+    if (val === "series") return "series";
     if (val === "anime") return "series"; // anime treated as series
     return "movie";
   }
 
   // --- Load category from session ---
   useEffect(() => {
-    const stored = sessionStorage.getItem("storedState");
+    const stored = localStorage.getItem("storedState");
 
     if (stored) {
       setState(stored);
@@ -116,7 +116,7 @@ export default function Search() {
         {/* Search Section */}
         <section className="w-[90%] p-8 my-6 mx-auto flex flex-col items-center justify-center bg-stone-900 rounded-2xl shadow-lg">
           <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-6">
-            Search {state.replace("tvshows", "TV Shows") || "movies"}
+            Search {state.replace("series", "TV Series") || "movies"}
           </h2>
           <div className="flex flex-col sm:flex-row w-full max-w-xl gap-4">
             <input
@@ -154,10 +154,7 @@ export default function Search() {
                 title={m.Title}
                 poster={m.Poster && m.Poster !== "N/A" ? m.Poster : "/placeholder.jpg"}
                 year={m.Year}
-                rating={m.imdbRating}
-                genre={m.Genre}
-                state={state || "movies"}
-                data={m}
+                genre={state}
               />
             ))}
           </div>

@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   // Set state + force refresh
   const setSearchState = (state_value) => {
-    sessionStorage.setItem("storedState", state_value);
+    localStorage.setItem("storedState", state_value);
     setIsOpen(false);
     window.location.href = "/search"; // ensures refresh + navigation
   };
@@ -27,17 +29,23 @@ export default function Navigation() {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6 text-stone-200 font-medium">
-        {["movies", "tvshows", "anime"].map((cat) => (
+        {["movies", "series"].map((cat) => (
           <button
             key={cat}
             title={`${cat}`}
             onClick={() => setSearchState(cat)}
             className="hover:text-amber-400 transition capitalize"
           >
-            {cat.replace("tvshows", "TV Shows")}
+            {cat.replace("series", "TV Shows")}
           </button>
         ))}
-
+          <button
+            title={`History`}
+            onClick={() => router.push("/history")}
+            className="hover:text-amber-400 transition capitalize"
+          >
+            History
+          </button>
         {/* User Section (Desktop) */}
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
@@ -62,13 +70,13 @@ export default function Navigation() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="z-10 absolute top-full right-0 mt-2 w-48 bg-stone-900 border border-amber-500 rounded-lg shadow-lg flex flex-col">
-          {["movies", "tvshows", "anime"].map((cat) => (
+          {["movies", "series"].map((cat) => (
             <button
               key={cat}
               onClick={() => setSearchState(cat)}
               className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition text-left capitalize"
             >
-              {cat.replace("tvshows", "TV Shows")}
+              {cat.replace("series", "TV Shows")}
             </button>
           ))}
 
