@@ -1,4 +1,6 @@
 'use client';
+
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, RedirectToSignIn, useUser } from "@clerk/nextjs";
@@ -163,8 +165,15 @@ export default function Player() {
           </button>
 
           <div className="flex flex-col md:flex-row gap-6 p-6 bg-stone-900 rounded-2xl shadow-2xl border border-amber-500">
-            <div className="flex-shrink-0 w-full md:w-64 lg:w-72">
-              <img src={imgSrc} alt={media.Title} className="w-full h-[360px] rounded-xl shadow-lg object-cover border border-amber-400" onError={handleImgError} />
+            <div className="flex-shrink-0 w-full md:w-64 lg:w-72 relative h-[360px] rounded-xl shadow-lg border border-amber-400 overflow-hidden">
+              <Image
+                src={imgSrc || "/placeholder.jpg"}
+                alt={media.Title}
+                fill
+                className="object-cover"
+                onError={handleImgError} // still works, but Next.js suggests using a loader for better control
+                unoptimized={true} // optional if you don't want Next.js to optimize
+              />
             </div>
 
             <div className="flex-1 flex flex-col gap-3">

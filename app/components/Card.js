@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Card({ id, title, poster, genre, year, onRemove }) {
   const router = useRouter();
@@ -11,20 +12,17 @@ export default function Card({ id, title, poster, genre, year, onRemove }) {
   const [triedFallback, setTriedFallback] = useState(false);
 
   function setID(value) {
-    const dataStorage = {
-      Id: value,
-      State: genre
-    };
+    const dataStorage = { Id: value, State: genre };
     localStorage.setItem("data", JSON.stringify(dataStorage));
     router.push("/player");
   }
 
   const handleError = () => {
     if (!triedFallback && poster && poster !== "N/A") {
-      setImgSrc(poster); // try original poster
+      setImgSrc(poster);
       setTriedFallback(true);
     } else {
-      setImgSrc("/placeholder.jpg"); // fallback
+      setImgSrc("/placeholder.jpg");
     }
   };
 
@@ -34,19 +32,18 @@ export default function Card({ id, title, poster, genre, year, onRemove }) {
       title={title}
       className="bg-stone-800 rounded-xl overflow-hidden shadow-lg hover:scale-105 transform transition duration-300 w-full sm:w-48 md:w-64 relative"
     >
-      {/* Clicking the image navigates to player */}
-      <div onClick={() => setID(id)} className="cursor-pointer">
-        <img
+      <div onClick={() => setID(id)} className="cursor-pointer relative w-full h-72">
+        <Image
           src={imgSrc}
           alt={title}
-          className="w-full h-72 object-cover"
-          width={200}
-          height={300}
+          fill
+          className="object-cover"
           onError={handleError}
+          sizes="(max-width: 768px) 100vw, 16rem"
         />
       </div>
 
-      <div className="p-3">
+      <div className="p-3">h
         <h3
           className="text-lg font-semibold hover:text-amber-400 cursor-pointer transition"
           onClick={() => setID(id)}
@@ -57,11 +54,10 @@ export default function Card({ id, title, poster, genre, year, onRemove }) {
         <p className="text-stone-400 text-xs mt-1">{year}</p>
       </div>
 
-      {/* Only render the remove button if onRemove is provided */}
       {onRemove && (
         <button
           onClick={(e) => {
-            e.stopPropagation(); // prevent triggering the card click
+            e.stopPropagation();
             onRemove();
           }}
           className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded hover:bg-red-700"
