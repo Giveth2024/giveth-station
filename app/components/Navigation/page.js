@@ -46,6 +46,13 @@ export default function Navigation() {
           >
             History
           </button>
+          <button
+            title={`Live TV`}
+            onClick={() => router.push("/tv")}
+            className="hover:text-amber-400 transition capitalize"
+          >
+            Live Tv
+          </button>
         {/* User Section (Desktop) */}
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
@@ -79,6 +86,21 @@ export default function Navigation() {
               {cat.replace("series", "TV Shows")}
             </button>
           ))}
+
+          <button
+            title={`History`}
+            onClick={() => router.push("/history")}
+            className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition text-left capitalize"
+          >
+            History
+          </button>
+          <button
+            title={`Live TV`}
+            onClick={() => router.push("/tv")}
+            className="px-4 py-2 text-stone-200 hover:bg-amber-400 hover:text-stone-950 transition text-left capitalize"
+          >
+            Live Tv
+          </button>
 
           {/* User Section (Mobile) */}
           <div className="px-4 py-2 border-t border-stone-700 flex items-center justify-between">
