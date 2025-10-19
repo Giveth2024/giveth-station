@@ -53,7 +53,7 @@ export default function LandingPage() {
           Welcome to <span className="text-amber-400">Giveth<i className="fa-solid fa-bolt"></i>tation</span>
         </h1>
         <p className="text-lg md:text-xl text-stone-300 mb-8">
-          A place where movies, TV shows, and anime come together to entertain you. Dive in and explore endless stories that await!
+          A place where movies, TV shows, and Live TV come together to entertain you. Dive in and explore endless stories that await!
         </p>
 
         {loading && (
