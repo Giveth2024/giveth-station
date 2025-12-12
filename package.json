@@ -9,10 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.31.6",
+    "@clerk/nextjs": "^6.36.2",
     "axios": "^1.12.2",
     "hls.js": "^1.6.13",
-    "next": "15.5.2",
+    "next": "^16.0.10",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
