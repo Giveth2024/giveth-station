@@ -9,6 +9,7 @@ import {
   RedirectToSignIn,
   useUser,
 } from "@clerk/nextjs";
+import { KeepServerAlive } from "../utils/KeepServerAlive";
 
 export default function Player() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function Player() {
 
   // 🔹 Redirect if no localStorage data
   useEffect(() => {
+    KeepServerAlive(); // Keeps the server awake while using Giveth Station
     const stored = localStorage.getItem("data");
     if (!stored) router.replace("/home");
   }, [router]);

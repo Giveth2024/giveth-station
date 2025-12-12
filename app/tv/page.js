@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import GivethTV from '../components/GivethTv'
 import TheAppTV from '../components/TheAppTv'
 import { useRouter } from 'next/navigation'
@@ -9,11 +9,16 @@ import {
   SignedOut,
   RedirectToSignIn,
 } from "@clerk/nextjs";
+import { KeepServerAlive } from '../utils/KeepServerAlive'
 
 export default function TVPage() {
   const [activePlayer, setActivePlayer] = useState(null) 
   const router = useRouter()
   // null = nothing, "giveth" = GivethTV, "theapp" = TheAppTV
+
+  useEffect(() => {
+    KeepServerAlive(); // Keeps the server awake while using Giveth Station
+  },[]);
 
   return (
     <>

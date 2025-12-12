@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { SignedIn, SignedOut, RedirectToSignIn, useUser } from "@clerk/nextjs";
 import Card from "../components/Card";
 import { useRouter } from "next/navigation";
+import { KeepServerAlive } from "../utils/KeepServerAlive";
 
 export default function LibraryPage() {
   const { user } = useUser();
@@ -14,6 +15,7 @@ export default function LibraryPage() {
   const API = process.env.NEXT_PUBLIC_GIVETH_SERVER_API;
 
   useEffect(() => {
+    KeepServerAlive(); // Keeps the server awake while using Giveth Station
     if (!user) return;
 
     async function fetchLibrary() {

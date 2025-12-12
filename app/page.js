@@ -9,6 +9,7 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
+import { KeepServerAlive } from "./utils/KeepServerAlive";
 
 export default function LandingPage() {
   const { user } = useUser();
@@ -39,6 +40,7 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
+    KeepServerAlive();
     if (!serverRunning) checkServer();
     return () => clearTimeout(timeoutRef.current);
   }, [attempt, serverRunning]);
