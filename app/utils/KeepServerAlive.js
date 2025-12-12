@@ -14,7 +14,7 @@ export default function KeepServerAlive({ children }) {
       } catch (err) {
         console.error("KeepAlive Error:", err);
       }
-    }, 13500);
+    }, 60000);
 
     return () => clearInterval(id); // during hard refresh
   }, []);
