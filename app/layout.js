@@ -1,6 +1,7 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next"
+import KeepServerAlive from "./utils/KeepServerAlive";
 
 // app/history/page.tsx or .jsx
 
@@ -27,8 +28,10 @@ export default function RootLayout({ children }) {
       <body
         className="bg-stone-950 text-stone-100"
       >
+        <KeepServerAlive>
         {children}
         <Analytics />
+        </KeepServerAlive>
       </body>
     </html>
     </ClerkProvider>

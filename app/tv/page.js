@@ -9,16 +9,11 @@ import {
   SignedOut,
   RedirectToSignIn,
 } from "@clerk/nextjs";
-import { KeepServerAlive } from '../utils/KeepServerAlive'
 
 export default function TVPage() {
   const [activePlayer, setActivePlayer] = useState(null) 
   const router = useRouter()
   // null = nothing, "giveth" = GivethTV, "theapp" = TheAppTV
-
-  useEffect(() => {
-    KeepServerAlive(); // Keeps the server awake while using Giveth Station
-  },[]);
 
   return (
     <>

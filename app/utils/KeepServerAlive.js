@@ -1,27 +1,23 @@
+"use client";
+
+import { useEffect } from "react";
 import axios from "axios";
 
-export function KeepServerAlive()
-{
-    try
-    {
-        setInterval(async () => {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_GIVETH_SERVER_API}/`);
-            const data = await res.data;
-    
-            if (data.status === "Server is running")
-            {
-                console.log(`Server Status:-> ${data.status}`);
-            }
-            else
-            {
-                throw new Error("Server is still alseep!!!");
-            }
-            
-        }, 60000);
+export default function KeepServerAlive({ children }) {
+  useEffect(() => {
+    const id = setInterval(async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_GIVETH_SERVER_API}/`);
+        const data = res.data;
 
-    }
-    catch(err)
-    {
-        console.error("Error While Waking the Server Up :-> ", err);
-    }
+        console.log("Server Status:", data.status);
+      } catch (err) {
+        console.error("KeepAlive Error:", err);
+      }
+    }, 13500);
+
+    return () => clearInterval(id); // during hard refresh
+  }, []);
+
+  return children;
 }
