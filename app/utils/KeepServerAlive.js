@@ -6,9 +6,7 @@ export function KeepServerAlive()
     {
         setInterval(async () => {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_GIVETH_SERVER_API}/`);
-            console.log(res);
             const data = await res.data;
-            console.log(data)
     
             if (data.status === "Server is running")
             {
