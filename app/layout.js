@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
         className="bg-stone-950 text-stone-100"
       >
         {children}
+        <Analytics />
       </body>
     </html>
     </ClerkProvider>
