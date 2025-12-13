@@ -40,6 +40,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     console.log("Welcome back to Giveth Station:)");
+    alert("Welcome back to Giveth Station:)");
     if (!serverRunning) checkServer();
     return () => clearTimeout(timeoutRef.current);
   }, [attempt, serverRunning]);
