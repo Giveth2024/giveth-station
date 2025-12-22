@@ -82,10 +82,10 @@ export default function NickelodeonPlayer() {
     <div className="bg-stone-950 text-stone-100 min-h-screen p-4 md:p-6 font-sans">
       {/* Navigation */}
       <button
-        onClick={() => router.push("/home")}
+        onClick={() => router.push("/tv")}
         className="px-6 py-2 mb-6 bg-amber-400 text-stone-900 font-bold rounded-lg shadow-lg hover:bg-amber-500 hover:scale-105 transition-all duration-300 flex items-center gap-2"
       >
-        ← Back to Home
+        ←
       </button>
 
       {/* Main Layout Container */}
