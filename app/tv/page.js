@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import {
   SignedIn,
@@ -9,62 +9,85 @@ import {
   RedirectToSignIn,
 } from "@clerk/nextjs";
 
-export default function TVPage() {
-  const [activePlayer, setActivePlayer] = useState(null) 
+function ChannelCard({ title, poster, path }) {
   const router = useRouter()
-  // null = nothing, "giveth" = GivethTV, "theapp" = TheAppTV
+  const [imgSrc, setImgSrc] = useState(poster || "/placeholder.jpg")
+  const [triedFallback, setTriedFallback] = useState(false)
+
+  const handleError = () => {
+    if (!triedFallback) {
+      setImgSrc("/placeholder.jpg")
+      setTriedFallback(true)
+    }
+  }
+
+  const goToChannel = () => {
+    localStorage.setItem("channelData", JSON.stringify({ title, path }))
+    router.push(path)
+  }
+
+  return (
+    <div style={{"margin": "10px"}} className=" bg-stone-800 rounded-xl overflow-hidden shadow-lg hover:scale-105 transform transition duration-300 w-full sm:w-56 md:w-64 lg:w-72 cursor-pointer flex-shrink-0">
+      <div className="relative w-full h-64" onClick={goToChannel}>
+        <Image
+          src={imgSrc}
+          alt={title}
+          fill
+          className="object-cover"
+          onError={handleError}
+          sizes="(max-width: 768px) 100vw, 18rem"
+        />
+      </div>
+      <div className="p-3">
+        <h3
+          className="text-lg font-semibold hover:text-amber-400 transition"
+          onClick={goToChannel}
+        >
+          {title}
+        </h3>
+      </div>
+    </div>
+  )
+}
+
+export default function TVPage() {
+  const channels = [
+    ["Nickelodeon", "/channels/Nickelodeon", "/nickelodeon.jpeg"],
+    ["Tom and Jerry", "/channels/Tomandjerry", "/tomjerry.jpg"],
+    ["Bukedde TV 1", "/channels/BukeddeTV1", "/bukeddeTv1.png"],
+    ["Bukedde TV 2", "/channels/BukeddeTV2", "/bukeddeTv2.png"],
+    ["Mythbusters", "/channels/Mythbusters", "/mythbusters.jpeg"],
+    ["FailArmy", "/channels/Failarmy", "/failarmy.jpeg"],
+    ["NTV Uganda", "/channels/Ntvuganda", "/NTV.png"],
+  ]
 
   return (
     <>
-        <SignedIn>
-            <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 text-center text-white px-6 relative">
-            
-            {/* Main Content */}
-            <section className="max-w-2xl">
-                <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
-                We’ll Be Back <span className="text-amber-400">Soon ⚡</span>
-                </h1>
+      <SignedIn>
+        <main className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 text-center text-white px-6 py-8 relative">
+          
+          <h1 className="text-3xl font-bold mb-8">TV Channels</h1>
 
-                <p className="text-lg md:text-xl text-stone-300 mb-8">
-                GivethStation Live Tv is currently undergoing scheduled maintenance.
-                We’re tuning the servers, polishing features, and making sure your
-                next visit is even more entertaining.
-                </p>
+          <div className="flex flex-wrap justify-center">
+            {channels.map(([title, path, poster], index) => (
+              <ChannelCard
+                key={index}
+                title={title}
+                path={path}
+                poster={poster}
+              />
+            ))}
+          </div>
 
-                <div className="bg-stone-800/60 border border-stone-700 rounded-2xl p-6 mb-8">
-                <p className="text-amber-400 font-semibold mb-2">
-                    What’s happening?
-                </p>
-                <ul className="text-stone-300 text-sm space-y-2">
-                    <li>• System upgrades & performance improvements</li>
-                    <li>• Server stability checks</li>
-                    <li>• Preparing new content & features 🎬</li>
-                </ul>
-                </div>
+          {/* Footer */}
+          <footer className="absolute bottom-4 text-stone-400 text-sm">
+            © {new Date().getFullYear()} GivethStation. All rights reserved.
+          </footer>
+        </main>
+      </SignedIn>
 
-                <p className="text-stone-400 text-sm">
-                Thank you for your patience. This page will automatically be available
-                once maintenance is complete.
-                </p>
-
-            </section>
-                <Link
-                  title="Giveth Station"
-                  href="/home"
-                  className="mt-2 px-5 py-2 rounded-xl bg-amber-400 text-stone-900 font-medium shadow hover:bg-amber-500 transition"
-                >
-                  Let&apos;s Go Home
-                </Link>
-
-            {/* Footer */}
-            <footer className="absolute bottom-4 text-stone-400 text-sm">
-                © {new Date().getFullYear()} GivethStation. All rights reserved.
-            </footer>
-            </main>
-        </SignedIn>
-
-        <SignedOut>
-            <RedirectToSignIn redirectUrl="/" />
+      <SignedOut>
+        <RedirectToSignIn redirectUrl="/" />
       </SignedOut>
     </>
   )
