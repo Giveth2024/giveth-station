@@ -40,7 +40,6 @@ export default function LandingPage() {
 
   useEffect(() => {
     console.log("Welcome back to Giveth Station:)");
-    alert("Do not forget to delete the GivethTv.js File from the components folder after maintenance!");
     if (!serverRunning) checkServer();
     return () => clearTimeout(timeoutRef.current);
   }, [attempt, serverRunning]);
