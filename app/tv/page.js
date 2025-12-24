@@ -53,12 +53,13 @@ function ChannelCard({ title, poster, path }) {
 export default function TVPage() {
   const channels = [
     ["Nickelodeon", "/channels/Nickelodeon", "/nickelodeon.jpeg"],
-    ["Tom and Jerry", "/channels/Tomandjerry", "/tomjerry.jpg"],
+    ["Tom and Jerry", "https://backend-channels-5al8.onrender.com/tomandjerry", "/tomjerry.jpg"],
     ["Bukedde TV 1", "/channels/BukeddeTV1", "/bukeddeTv1.png"],
     ["Bukedde TV 2", "/channels/BukeddeTV2", "/bukeddeTv2.png"],
     ["Mythbusters", "/channels/Mythbusters", "/mythbusters.jpeg"],
     ["FailArmy", "/channels/Failarmy", "/failarmy.jpeg"],
     ["NTV Uganda", "/channels/Ntvuganda", "/NTV.png"],
+    ["Pokemon", "https://backend-channels-5al8.onrender.com/", "/Pokemon-Logo.jpg"],
   ]
 
   return (
