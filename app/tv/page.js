@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import Navigation from '../components/Navigation/page'
 import {
   SignedIn,
   SignedOut,
@@ -65,9 +66,10 @@ export default function TVPage() {
   return (
     <>
       <SignedIn>
+        <Navigation />
         <main className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 text-center text-white px-6 py-8 relative">
           
-          <h1 className="text-3xl font-bold mb-8">TV Channels</h1>
+          <h1 className="text-3xl font-bold mb-8 text-amber-500">TV Channels 📺</h1>
 
           <div className="flex flex-wrap justify-center">
             {channels.map(([title, path, poster], index) => (
