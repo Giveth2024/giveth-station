@@ -58,6 +58,7 @@ export default function TVPage() {
     ["Bukedde TV 1", "/channels/BukeddeTV1", "/bukeddeTv1.png"],
     ["Bukedde TV 2", "/channels/BukeddeTV2", "/bukeddeTv2.png"],
     ["Mythbusters", "/channels/Mythbusters", "/mythbusters.jpeg"],
+    ["Disney", "https://backend-channels-5al8.onrender.com/disney", "/disney.jpg"],
     ["FailArmy", "/channels/Failarmy", "/failarmy.jpeg"],
     ["NTV Uganda", "/channels/Ntvuganda", "/NTV.png"],
     ["Pokemon", "https://backend-channels-5al8.onrender.com/pokemon", "/Pokemon-Logo.jpg"],
