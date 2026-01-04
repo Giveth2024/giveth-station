@@ -61,7 +61,7 @@ export default function TVPage() {
     ["Disney", "https://backend-channels-5al8.onrender.com/disney", "/disney.jpg"],
     ["FailArmy", "/channels/Failarmy", "/failarmy.jpeg"],
     ["NTV Uganda", "/channels/Ntvuganda", "/NTV.png"],
-    ["Pokemon", "https://backend-channels-5al8.onrender.com/pokemon", "/Pokemon-Logo.jpg"],
+    ["Pokemon", "https://backend-channels-5al8.onrender.com/pokemontv", "/Pokemon-Logo.jpg"],
   ]
 
   return (
