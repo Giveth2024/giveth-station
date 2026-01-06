@@ -54,12 +54,15 @@ function ChannelCard({ title, poster, path }) {
 export default function TVPage() {
   const channels = [
     ["Nickelodeon", "https://backend-channels-5al8.onrender.com/nickelodeon", "/nickelodeon.jpeg"],
+    ["NickJunior", "https://backend-channels-5al8.onrender.com/nickJunior", "/NickJunior.jpg"],
+    ["NickToons", "https://backend-channels-5al8.onrender.com/nickToons", "/nickToons.jpg"],
     ["Tom and Jerry", "https://backend-channels-5al8.onrender.com/tomandjerry", "/tomjerry.jpg"],
     ["Bukedde TV 1", "/channels/BukeddeTV1", "/bukeddeTv1.png"],
     ["Bukedde TV 2", "/channels/BukeddeTV2", "/bukeddeTv2.png"],
     ["Mythbusters", "/channels/Mythbusters", "/mythbusters.jpeg"],
     ["Disney", "https://backend-channels-5al8.onrender.com/disney", "/disney.jpg"],
     ["DisneyXD", "https://backend-channels-5al8.onrender.com/disneyxd", "/disneyXD.jpg"],
+    ["Disney Junior", "https://backend-channels-5al8.onrender.com/disneyJunior", "/DisneyJunior.jpg"],
     ["FailArmy", "/channels/Failarmy", "/failarmy.jpeg"],
     ["NTV Uganda", "/channels/Ntvuganda", "/NTV.png"],
     ["Pokemon", "https://backend-channels-5al8.onrender.com/pokemontv", "/Pokemon-Logo.jpg"],
